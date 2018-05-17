@@ -1,0 +1,5 @@
+- name: Creating/deleting vhosts
+  rabbitmq_vhost:
+    name: "{{ item.name }}"
+    state: "{{ item.state }}"
+  with_items: "{{ rabbitmq_vhosts }}"

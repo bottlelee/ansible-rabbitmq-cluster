@@ -1,0 +1,29 @@
+- name: Download the /var/lib/rabbitmq/.erlang.cookie from first host
+  fetch:
+    src: /var/lib/rabbitmq/.erlang.cookie
+    dest: ./files/.erlang.cookie
+    flat: yes
+  when: inventory_hostname == groups['all']|first
+
+- block:
+    - name: Uploading the .erlang.cookie to other hosts
+      copy:
+        src: .erlang.cookie
+        dest: /var/lib/rabbitmq/.erlang.cookie
+      register: cookie
+    - name: Restarting rabbitmq-server when cookie changed
+      service:
+        name: rabbitmq-server
+        state: restarted
+      when: cookie is changed
+    - name: Checking cluster status
+      command: /usr/sbin/rabbitmqctl cluster_status
+      changed_when: false
+      register: cluster
+    - name: Joining to first node
+      command: "/usr/sbin/rabbitmqctl {{ item }}"
+      with_items:
+        - stop_app
+        - join_cluster rabbit@{{ groups['all']|first }}
+      when: groups['all']|first not in cluster.stdout
+  when: inventory_hostname != groups['all']|first

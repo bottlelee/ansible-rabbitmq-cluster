@@ -13,3 +13,4 @@ downloaded_files
 host_vars
 install_report
 group_vars/all.yml
+files/.erlang.cookie

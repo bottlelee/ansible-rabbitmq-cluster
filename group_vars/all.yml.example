@@ -17,6 +17,10 @@ dns_servers:
 # RabbitMQ settings
 delete_user_guest: true
 vhost_mirroring: true
+## Join mode could be 'disc' or 'ram', default is 'disc'.
+## But the first node will remian in 'disc' mode.
+## Read more on http://www.rabbitmq.com/clustering.html#ram-nodes
+join_mode: disc
 
 rabbitmq_users:
   - name: nsc

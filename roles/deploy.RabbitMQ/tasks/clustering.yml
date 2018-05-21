@@ -24,7 +24,7 @@
       command: "/usr/sbin/rabbitmqctl {{ item }}"
       with_items:
         - stop_app
-        - join_cluster rabbit@{{ groups['all']|first }}
+        - join_cluster --{{ join_mode }} rabbit@{{ groups['all']|first }}
         - start_app
       when: groups['all']|first not in cluster.stdout
   when: inventory_hostname != groups['all']|first

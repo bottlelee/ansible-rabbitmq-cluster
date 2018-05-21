@@ -1,0 +1,12 @@
+- name: Restarting rabbitmq-server config
+  service:
+    name: rabbitmq-server
+    state: restarted
+    enabled: yes
+  listen: Restart rabbitmq-server
+
+- name: Waiting for rabbitmq-server started
+  wait_for:
+    port: 5672
+    timeout: 120
+  listen: Restart rabbitmq-server

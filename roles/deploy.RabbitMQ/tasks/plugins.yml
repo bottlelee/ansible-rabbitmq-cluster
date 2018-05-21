@@ -1,0 +1,5 @@
+- name: Enables the rabbitmq plugins
+  rabbitmq_plugin:
+    names: "{{ item.name }}"
+    state: "{{ item.state }}"
+  with_items: "{{ rabbitmq_plugins }}"

@@ -1,0 +1,18 @@
+- name: Removing default user 'guest'
+  rabbitmq_user:
+    name: guest
+    state: absent
+    node: "rabbit@{{ ansible_hostname }}"
+  when: delete_user_guest|bool == true
+
+- name: Creating/updating users
+  rabbitmq_user:
+    name: "{{ item.name }}"
+    password: "{{ item.password }}"
+    vhost: "{{ item.vhost }}"
+    configure_priv: "{{ item.configure_priv }}"
+    read_priv: "{{ item.read_priv }}"
+    write_priv: "{{ item.write_priv }}"
+    state: "{{ item.state }}"
+    node: "rabbit@{{ ansible_hostname }}"
+  with_items: "{{ rabbitmq_users }}"

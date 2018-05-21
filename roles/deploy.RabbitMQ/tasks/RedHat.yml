@@ -1,0 +1,19 @@
+- block:
+    - name: Uploading packages
+      copy:
+        src: "downloaded_files/{{ item | basename }}"
+        dest: "/tmp/{{ item | basename }}"
+      with_items: "{{ rpm_urls }}"
+    - name: Installing packages
+      yum:
+        file: "/tmp/{{ item | basename }}"
+      with_items: "{{ rpm_urls }}"
+  rescue:
+    - include_tasks: download.yml format='rpm'
+    - include_tasks: RedHat.yml
+  when: offline|bool == true
+
+- name: Installing rabbitmq-server
+  yum:
+    name: rabbitmq-server
+    state: present

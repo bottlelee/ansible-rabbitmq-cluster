@@ -1,0 +1,27 @@
+- name: Downloading packages | Debian
+  get_url:
+    url: "{{ item }}"
+    dest: "downloaded_files/{{ item | basename }}"
+  with_items: "{{ deb_urls }}"
+  delegate_to: localhost
+  become: no
+  run_once: yes
+  retries: 99
+  delay: 3
+  register: download
+  until: download is succeeded
+  when: format == 'deb'
+
+- name: Downloading packages | RedHat
+  get_url:
+    url: "{{ item }}"
+    dest: "downloaded_files/{{ item | basename }}"
+  with_items: "{{ rpm_urls }}"
+  delegate_to: localhost
+  become: no
+  run_once: yes
+  retries: 99
+  delay: 3
+  register: download
+  until: download is succeeded
+  when: format == 'rpm'

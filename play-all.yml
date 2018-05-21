@@ -1,0 +1,4 @@
+- import_playbook: 01-env_init.yml
+- import_playbook: 02-deploy_rabbitmq.yml
+# - import_playbook: 07-deploy_monit.yml
+# - import_playbook: 09-deploy_haproxy.yml

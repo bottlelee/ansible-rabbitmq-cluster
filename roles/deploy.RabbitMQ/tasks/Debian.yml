@@ -1,0 +1,23 @@
+- block:
+    - name: Uploading packages
+      copy:
+        src: "downloaded_files/{{ item | basename }}"
+        dest: "/tmp/{{ item | basename }}"
+      with_items: "{{ deb_urls }}"
+    - name: Installing packages
+      apt:
+        deb: "/tmp/{{ item | basename }}"
+      with_items: "{{ deb_urls }}"
+  rescue:
+    - include_tasks: download.yml format='deb'
+    - include_tasks: Debian.yml
+  when: offline|bool == true
+
+- block:
+    - name: Installing rabbitmq-server
+      apt:
+        name: rabbitmq-server
+        state: present
+    - name: Hold the currnet version of rabbitmq-server
+      command: apt-mark hold rabbitmq-server
+      changed_when: false

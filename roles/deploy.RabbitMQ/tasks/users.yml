@@ -2,6 +2,7 @@
   rabbitmq_user:
     name: guest
     state: absent
+    node: "rabbit@{{ ansible_hostname }}"
   when: delete_user_guest|bool == true
 
 - name: Creating/updating users
@@ -13,4 +14,5 @@
     read_priv: "{{ item.read_priv }}"
     write_priv: "{{ item.write_priv }}"
     state: "{{ item.state }}"
+    node: "rabbit@{{ ansible_hostname }}"
   with_items: "{{ rabbitmq_users }}"

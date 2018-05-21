@@ -3,6 +3,7 @@
       service:
         name: rabbitmq-server
         state: started
+      changed_when: false
   rescue:
     - include_tasks: "{{ ansible_os_family }}.yml"
     - include_tasks: main.yml
@@ -14,3 +15,9 @@
   notify: Restart rabbitmq-server
 
 - include_tasks: clustering.yml
+- include_tasks: plugins.yml
+
+- block:
+    - include_tasks: users.yml
+    - include_tasks: vhosts.yml
+  when: inventory_hostname == groups['all']|first

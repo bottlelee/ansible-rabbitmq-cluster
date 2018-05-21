@@ -2,4 +2,5 @@
   rabbitmq_vhost:
     name: "{{ item.name }}"
     state: "{{ item.state }}"
+    node: "rabbit@{{ ansible_hostname }}"
   with_items: "{{ rabbitmq_vhosts }}"

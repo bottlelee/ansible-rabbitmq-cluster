@@ -1,0 +1,36 @@
+# In offline deploy mode, you must download packages first.
+# offline: false
+
+timezone: 'Asia/Shanghai'
+
+# Set the network interface name to get IP
+## CentOS
+RedHat_bind_interface: 'eth1'
+## Ubuntu
+Debian_bind_interface: 'enp0s8'
+
+# DNS nameserver
+dns_servers:
+  - 127.0.0.1
+  - 1.1.1.1
+
+# RabbitMQ settings
+delete_user_guest: true
+vhost_mirroring: true
+
+rabbitmq_users:
+  - name: nsc
+    password: quanduan
+    vhost: /
+    configure_priv: .*
+    read_priv: .*
+    write_priv: .*
+    state: present
+
+rabbitmq_vhosts:
+  - name: nsc
+    state: present
+
+rabbitmq_plugins:
+  - name: rabbitmq_management
+    state: enabled

@@ -25,5 +25,17 @@
       with_items:
         - stop_app
         - join_cluster rabbit@{{ groups['all']|first }}
+        - start_app
       when: groups['all']|first not in cluster.stdout
   when: inventory_hostname != groups['all']|first
+
+- name: Ensure the default vhost contains the HA policy
+  rabbitmq_policy:
+    name: HA
+    pattern: .*
+    node: "rabbit@{{ ansible_hostname }}"
+    tags:
+      ha-mode: all
+  when:
+    - vhost_mirroring|bool == true
+    - inventory_hostname == groups['all']|first

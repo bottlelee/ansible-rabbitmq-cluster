@@ -8,7 +8,7 @@ Vagrant.require_version ">= 2.0.0"
 $vm_box = "ubuntu/xenial64"
 # $vm_box = "centos/7"
 $instances = 3
-$apt_proxy = "http://192.168.205.16:3142"
+# $apt_proxy = "http://192.168.205.16:3142"
 
 Vagrant.configure("2") do |config|
   # always use Vagrants insecure key
@@ -39,6 +39,8 @@ Vagrant.configure("2") do |config|
       config.vm.hostname = vm_name
       config.vm.network "private_network", ip: "172.28.128.1#{instance_id.to_s.rjust(2, '0')}"
       config.vm.network "forwarded_port", guest: 5672, host: 5672,
+        auto_correct: true
+      config.vm.network "forwarded_port", guest: 15672, host: 15672,
         auto_correct: true
 
       config.vm.provider "virtualbox" do |vb|

@@ -10,8 +10,11 @@
 
 - name: Updating /etc/rabbitmq/rabbitmq-env.conf
   template:
-    src: rabbitmq-env.conf.j2
-    dest: /etc/rabbitmq/rabbitmq-env.conf
+    src: "{{ item }}.j2"
+    dest: "/etc/rabbitmq/{{ item }}"
+  with_items:
+    - rabbitmq-env.conf
+    - rabbitmq.config
   notify: Restart rabbitmq-server
 
 - include_tasks: clustering.yml

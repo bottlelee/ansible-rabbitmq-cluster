@@ -1,5 +1,5 @@
 # In offline deploy mode, you must download packages first.
-# offline: false
+offline: false
 
 timezone: 'Asia/Shanghai'
 
@@ -19,9 +19,12 @@ delete_user_guest: true
 vhost_mirroring: true
 ## Join mode could be 'disc' or 'ram', default is 'disc'.
 ## But the first node will remian in 'disc' mode.
-## Read more on http://www.rabbitmq.com/clustering.html#ram-nodes
-join_mode: disc
+## Read more on http://www.rabbitmq.com/clustering.html#creating-ram
+join_mode: ram
 
+
+# User tags specified as comma delimited.
+## Read more on https://www.rabbitmq.com/management.html#permissions
 rabbitmq_users:
   - name: nsc
     password: quanduan
@@ -30,6 +33,7 @@ rabbitmq_users:
     read_priv: .*
     write_priv: .*
     state: present
+    tags: administrator
 
 rabbitmq_vhosts:
   - name: nsc

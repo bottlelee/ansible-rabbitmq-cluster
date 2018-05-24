@@ -1,3 +1,10 @@
+- name: Update all installed packages
+  apt:
+    upgrade: dist
+    update_cache: yes
+    autoremove: yes
+    autoclean: yes
+
 - name: "Checking {{ bind_interface }}"
   fail:
     msg: "interface {{ bind_interface }} has no IP address"

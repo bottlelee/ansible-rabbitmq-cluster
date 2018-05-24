@@ -15,4 +15,5 @@
     write_priv: "{{ item.write_priv }}"
     state: "{{ item.state }}"
     node: "rabbit@{{ ansible_hostname }}"
+    tags: "{{ item.tags | default(omit) }}"
   with_items: "{{ rabbitmq_users }}"
